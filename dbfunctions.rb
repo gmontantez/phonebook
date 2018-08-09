@@ -1,78 +1,6 @@
 require 'pg'
     load './local_env.rb' if File.exist?('./local_env.rb')
 
-# def create_table()
-#   begin
-#     db_info = {
-#       host: ENV['RDS_HOST'],
-#       port: ENV['RDS_PORT'],
-#       dbname: ENV['RDS_DB_NAME'],
-#       user: ENV['RDS_USERNAME'],
-#       password: ENV['RDS_PASSWORD']
-#       }
-#     d_base = PG::Connection.new(db_info)
-#     d_base.exec ("CREATE TABLE public.phonebookdata (
-#       first_name text,
-#       last_name text,
-#       street_address text,
-#       city text,
-#       state text,
-#       zip_code text,
-#       phone_number text,
-#       email_address text)");
-#     rescue PG::Error => e
-#       puts e.message
-#     ensure
-#       d_base.close if d_base
-#   end
-# end
-
-# def login_table()
-#   begin
-#     pbinfo = {
-#       host: ENV['RDS_HOST'],
-#       port: ENV['RDS_PORT'],
-#       dbname: ENV['RDS_DB_NAME'],
-#       user: ENV['RDS_USERNAME'],
-#       password: ENV['RDS_PASSWORD']
-#     }
-# db = PG::Connection.new(pbinfo)
-# db.exec ("CREATE TABLE public.login (
-#           ID bigserial NOT NULL,
-#           username text,
-#           password text)");
-#   rescue PG::Error => e
-#      puts e.message
-#   ensure
-#   db.close if db
-#   end
-# end  
-
-# def login(data)
-#    pbinfo = {
-#     host: ENV['RDS_HOST'],
-#     port: ENV['RDS_PORT'],
-#     dbname: ENV['RDS_DB_NAME'],
-#     user: ENV['RDS_USERNAME'],
-#     password: ENV['RDS_PASSWORD']
-#   }
-#   db = PG::Connection.new(pbinfo)
-#   authusr = db.exec("SELECT * FROM public.login WHERE username = '#{u_n}'")
-#    if authusr.num_tuples.zero? == false
-#     val = authusr.values.flatten
-     
-#       if val.include?(password) 
-#              redirect '/return'
-#          else
-#              msg = "Wrong Username"
-#       end
-#     else  
-#          msg = "Wrong Password" 
-#     end  
-#   db.close if db
-
-#     msg
-# end 
 def login(data)
   begin
     db_info = {
@@ -90,7 +18,6 @@ def login(data)
       d_base.close if d_base
   end
 end
-# login(['i love','wombats'])
 
 def update_login(data)
   begin
@@ -111,8 +38,6 @@ def update_login(data)
   end
 end
 
-# update_login(['i hate','wombats'])
-
 def delete_login(data)
   begin
     db_info = {
@@ -132,8 +57,6 @@ def delete_login(data)
   end
 end
 
-# delete_login(['i hate','wombats','','','','','',''])
-
 def insert_info(data)
   begin
     db_info = {
@@ -151,8 +74,6 @@ def insert_info(data)
       d_base.close if d_base
   end
 end
-
-# insert_info(['SAM','SMITH','15 MAIN ST','CHARLESTON','WV','25311','3049999999','sasmith98765893@gmail.com'])
 
 def update_info(data)
   begin
@@ -173,8 +94,6 @@ def update_info(data)
   end
 end
 
-# update_info(['i hate','wombats','','','','','',''])
-
 def select_info(data)
   begin
     db_info = {
@@ -194,8 +113,6 @@ def select_info(data)
   end
 end
 
-# select_info().to_a
-
 def check_if_user_is_in_db(data)
   begin
     db_info = {
@@ -206,16 +123,13 @@ def check_if_user_is_in_db(data)
     password: ENV['RDS_PASSWORD']
     }
     d_base = PG::Connection.new(db_info)
-    d_base.exec ("SELECT first_name, last_name, street_address, city, state, zip_code, phone_number, email_address
-    FROM public.phonebook where first_name = '' and last_name = '' and street_address = '' and city = '' and state = '' and zip_code = '' and phone_number = '' and email_address = '';")
+    d_base.exec ("SELECT * FROM public.phonebook WHERE email_address = '#{data[7]}';")
   rescue PG::Error => e
     puts e.message
     ensure
     d_base.close if d_base
   end
 end
-
-# check_if_user_is_in_db()
 
 def delete_info(data)
   begin
@@ -236,10 +150,3 @@ def delete_info(data)
   end
 end
 
-# delete_info(['aaa','bbb','125 main st','chas','wv','25311','3041119999','123556aaa@gmail.com'])
-
-# login_table()
-# p select_info().to_a
-
-# insert_info()
-# delete_info()

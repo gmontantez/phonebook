@@ -34,26 +34,21 @@ get '/input_info' do
 end
 
 post '/input_info' do
-  data = params[:data]
- 
-  # db_return = select_info()
-  db_check = check_if_user_is_in_db(data)
+  session[:data] = params[:data]
+  db_check = check_if_user_is_in_db(session[:data])
   if db_check.num_tuples.zero? == true 
     puts "not in db"
-    insert_info(data)
+    insert_info(session[:data])
     redirect '/final_result'
   else
-    db_check
     puts "it is in the db, input a different listing"
-    redirect '/insert_info'
+    redirect '/input_info'
   end
-   # insert_info(data)
 end
 
 get '/final_result' do
-  data = params[:data]
-  db_return = select_info(data)
-  db_check = check_if_user_is_in_db(data)
+  db_return = select_info(session[:data])
+  db_check = check_if_user_is_in_db(session[:data])
   erb :final_result, locals: {db_return: db_return, db_check: db_check}
 end
 
