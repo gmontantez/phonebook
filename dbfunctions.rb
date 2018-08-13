@@ -57,6 +57,42 @@ def delete_login(data)
   end
 end
 
+def search_phone(data)
+  begin
+    db_info = {
+      host: ENV['RDS_HOST'],
+      port: ENV['RDS_PORT'],
+      dbname: ENV['RDS_DB_NAME'],
+      user: ENV['RDS_USERNAME'],
+      password: ENV['RDS_PASSWORD']
+      }
+    d_base = PG::Connection.new(db_info)
+    d_base.exec ("SELECT * FROM public.phonebook WHERE phone_number='#{data[6]}'");
+    rescue PG::Error => e
+      puts e.message
+    ensure
+      d_base.close if d_base
+  end
+end
+
+def search_name(data)
+  begin
+    db_info = {
+      host: ENV['RDS_HOST'],
+      port: ENV['RDS_PORT'],
+      dbname: ENV['RDS_DB_NAME'],
+      user: ENV['RDS_USERNAME'],
+      password: ENV['RDS_PASSWORD']
+      }
+    d_base = PG::Connection.new(db_info)
+    d_base.exec ("SELECT * FROM public.phonebook WHERE last_name='#{data[1]}'");
+    rescue PG::Error => e
+      puts e.message
+    ensure
+      d_base.close if d_base
+  end
+end
+
 def insert_info(data)
   begin
     db_info = {
@@ -75,7 +111,7 @@ def insert_info(data)
   end
 end
 
-def update_info(data)
+def update_info(data, olddata)
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -86,7 +122,7 @@ def update_info(data)
       }
     d_base = PG::Connection.new(db_info)
     d_base.exec ("UPDATE public.phonebook
-      SET first_name='#{data[0]}', last_name='#{data[1]}', street_address='#{data[2]}', city='#{data[3]}', state='#{data[4]}', zip_code='#{data[5]}', phone_number='#{data[6]}', email_address='#{data[7]}'");
+      SET first_name='#{data[0]}', last_name='#{data[1]}', street_address='#{data[2]}', city='#{data[3]}', state='#{data[4]}', zip_code='#{data[5]}', phone_number='#{data[6]}', email_address='#{data[7]}' WHERE email_address='#{olddata[7]}'");
     rescue PG::Error => e
       puts e.message
     ensure
@@ -94,7 +130,7 @@ def update_info(data)
   end
 end
 
-def select_info(data)
+def select_info()
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -123,7 +159,7 @@ def check_if_user_is_in_db(data)
     password: ENV['RDS_PASSWORD']
     }
     d_base = PG::Connection.new(db_info)
-    d_base.exec ("SELECT * FROM public.phonebook WHERE email_address = '#{data[7]}';")
+    d_base.exec ("SELECT * FROM public.phonebook WHERE last_name = '#{data[1]}' AND phone_number = '#{data[6]}' OR email_address = '#{data[7]}';")
   rescue PG::Error => e
     puts e.message
     ensure

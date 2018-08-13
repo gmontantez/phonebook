@@ -1,12 +1,8 @@
 <%db_return.each do |item|%>
 	<%= item %><br>
 <% end %>
-<form method="post" action="">
-<button onclick="goBack()">Go Back</button>
 
-<script>
-function goBack() {
-    window.history.back();
-}
-</script>
+<form method="post" action='final_result'>
+	<input type='submit' value="Go Back">
 </form>
+

@@ -18,14 +18,10 @@ end
 post '/create_user' do
   session[:username] = params[:username]
   session[:password] = params[:password]
-  puts "this is sessionnew username #{session[:username]}"
-  puts "this is sessionnew password #{session[:password]}"
-    redirect '/sign_in'
+  redirect '/sign_in'
 end
 
 post '/sign_in' do
-  puts "this is sessionnew username post sign_in #{session[:username]}"
-  puts "this is sessionnew password username post sign_in #{session[:password]}"
   redirect '/input_info'
 end
 
@@ -41,18 +37,32 @@ post '/input_info' do
     insert_info(session[:data])
     redirect '/final_result'
   else
-    puts "it is in the db, input a different listing"
-    redirect '/input_info'
+    puts "it is in the db, update your listing"
+    redirect '/updates'
   end
 end
 
+get '/updates' do
+  db_check = check_if_user_is_in_db(session[:data]).values[0]
+  erb :updates, locals: {db_check: db_check}
+end
+
+post '/updates' do
+  session[:newdata] = params[:data]
+  update_info(session[:newdata], session[:data]) 
+  redirect '/final_result'
+end
+
+post '/deletes' do
+  delete_info(check_if_user_is_in_db(session[:data]).values[0])
+  redirect '/final_result'
+end
+
 get '/final_result' do
-  db_return = select_info(session[:data])
-  db_check = check_if_user_is_in_db(session[:data])
-  erb :final_result, locals: {db_return: db_return, db_check: db_check}
+  db_return = select_info()
+  erb :final_result, locals: {db_return: db_return}
 end
 
 post '/final_result' do
   redirect '/input_info'
 end
-
