@@ -10,18 +10,51 @@ USERS = [
 ]
 
 get '/' do
+  erb :welcome_page
+end
+
+post '/welcome_page' do
+  redirect '/sign_in'
+end
+
+get '/sign_in' do
   session[:username] = params[:username]
   session[:password] = params[:password]
-  erb :sign_in
+  message = params[:message] || ""
+  erb :sign_in, locals: {message: message}
 end
+
 
 post '/create_user' do
   session[:username] = params[:username]
   session[:password] = params[:password]
-  redirect '/sign_in'
+  p "this is username #{session[:username]} and password #{session[:password]}"
+  db_info = {
+      host: ENV['RDS_HOST'],
+      port: ENV['RDS_PORT'],
+      dbname: ENV['RDS_DB_NAME'],
+      user: ENV['RDS_USERNAME'],
+      password: ENV['RDS_PASSWORD']
+      }
+  d_base = PG::Connection.new(db_info)
+  encrypted_pass = BCrypt::Password.create(session[:password], :cost => 11)
+  checkUser = d_base.exec("SELECT username FROM login WHERE username = '#{session[:username]}'")
+
+  if checkUser.num_tuples.zero? == true
+    d_base.exec ("INSERT INTO login (username, password) VALUES ('#{session[:username]}','#{encrypted_pass}')")
+    puts "new row added, encrypted_pass is #{encrypted_pass}"
+    redirect '/input_info'
+  else
+    d_base.close
+    puts "User already exists"
+    redirect '/sign_in?message=User Already Exists'
+  end
+  
 end
 
 post '/sign_in' do
+  session[:username] = params[:username]
+  session[:password] = params[:password]
   redirect '/input_info'
 end
 

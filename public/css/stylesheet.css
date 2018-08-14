@@ -1,0 +1,131 @@
+.background1 {
+    background-image: url(/img/phone_with_book.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.background2 {
+    background-image: url(/img/address_book.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+h3 {
+	color: #ff0000;/*red*/
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; 
+	text-align: left;
+	font-weight: bold;
+}
+
+h4 {
+	color: #00ff00;/*red*/
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; 
+	text-align: left;
+	font-weight: bold;
+}
+
+p.b {
+	font-size: 3.5rem;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+	color: #ffff00;/*yellow*/
+	text-shadow:5px 5px 10px black;
+	/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+}
+
+p.c {
+	font-size: 2.5rem;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+	color:  #ff0000;/*red*/
+	/*text-shadow:5px 5px 10px blue;*/
+	text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+	padding-top: 275px;
+	/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+}
+
+p.d {
+	font-size: 2.5rem;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+	color:  #ff0000;/*red*/
+	/*text-shadow:5px 5px 10px blue;*/
+	text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+	padding-top: 2.5px;
+	/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+}
+
+p.e {
+	font-size: 2.5rem;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+	color: #ffff00;/*yellow*/ 
+	/*text-shadow:5px 5px 10px black;
+	/*text-shadow:5px 5px 10px blue;*/
+	text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+	padding-top: 25px;
+	/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+}
+
+p.f {
+	font-size: 1.25rem;
+	font-weight: bold;
+	text-align: left;
+	color: #0000ff;/*blue*/
+	/*text-shadow:5px 5px 10px blue;*/
+	/*text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;*/
+	/*padding-top: 2.5px;*/
+	/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+}
+
+p.g {
+	font-size: 2rem;
+	font-weight: bold;
+	font-style: italic;
+	text-align: left;
+	color: #ff0000;/*red*/ 
+	/*text-shadow:5px 5px 10px black;*/
+	/*text-shadow:5px 5px 10px blue;*/
+	/*text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+	/*padding-top: 150px;*/
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+p.h {
+	font-size: 1.25rem;
+	font-weight: bold;
+	font-style: italic;
+	text-align: left;
+	color: #00ff00;/*green*/ 
+	/*text-shadow:5px 5px 10px black;*/
+	/*text-shadow:5px 5px 10px blue;*/
+	/*text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+	/*padding-top: 150px;*/
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+li {
+	display: inline;
+	font-size: 1.5rem;
+	text-align: center;
+	padding-right: 1rem;
+	padding-left: 1rem;
+}
+
+ul {
+	font-size: 1.5rem;
+	font-style: italic;
+	font-weight: bold;
+	text-align: right;
+}
+
+a:hover {
+    background-color: yellow;
+}
+

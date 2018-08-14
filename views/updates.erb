@@ -1,3 +1,4 @@
+<p class="f">Here is the listing that you selected to revise:</p>
 <%db_check.each do |item|%>
 	<%= item %><br>
 <% end %>
@@ -14,10 +15,11 @@
 <br>(Continental US Numbers Only)</br>
     <input type="text" value="<%=db_check[6]%>" name="data[]" placeholder="Phone" minlength="10" maxlength="10" required><br>
 <br><input type="text" value="<%=db_check[7]%>" name="data[]" placeholder="Email" required>
-
-<br><input type="submit" value="Update">
+<h3>Please select "Update" to make any updates to the existing entry in the phonebook:</h3>
+<input type="submit" value="Update">
 </form>
 
 <form method="post" action="deletes">
+<h3>Please select "Delete" to delete the existing entry from the phonebook:</h3>
 	<input type="submit" value="Delete">
 </form>

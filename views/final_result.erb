@@ -1,8 +1,12 @@
-<%db_return.each do |item|%>
-	<%= item %><br>
-<% end %>
+<h1>Phonebook listings with the updated information:</h1>
 
+<%db_return.each do |item|%>
+<p class="f">
+	<%= item['first_name'] %> <%= item['last_name'] %>:  <%= item['street_address'] %> <%= item['city'] %>, <%= item['state'] %>, <%= item['zip_code'] %> //// <%= item['phone_number'] %> //// (<%= item['email_address'] %>)
+<% end %>
+</p>
 <form method="post" action='final_result'>
-	<input type='submit' value="Go Back">
+<h2>Please select "Return" to input another entry:</h3>
+	<input type='submit' value="Return">
 </form>
 

@@ -1,23 +1,32 @@
 require 'pg'
     load './local_env.rb' if File.exist?('./local_env.rb')
 
-def login(data)
-  begin
-    db_info = {
-      host: ENV['RDS_HOST'],
-      port: ENV['RDS_PORT'],
-      dbname: ENV['RDS_DB_NAME'],
-      user: ENV['RDS_USERNAME'],
-      password: ENV['RDS_PASSWORD']
-      }
-    d_base = PG::Connection.new(db_info)
-    d_base.exec ("INSERT INTO public.login (username, password) VALUES('#{data[0]}','#{data[1]}');");
-    rescue PG::Error => e
-      puts e.message
-    ensure
-      d_base.close if d_base
-  end
-end
+# def login(username, password)
+#   begin
+#     db_info = {
+#       host: ENV['RDS_HOST'],
+#       port: ENV['RDS_PORT'],
+#       dbname: ENV['RDS_DB_NAME'],
+#       user: ENV['RDS_USERNAME'],
+#       password: ENV['RDS_PASSWORD']
+#       }
+#     end
+#   # db = connection()
+#   d_base = PG::Connection.new(db_info)
+#   encrypted_pass = BCrypt::Password.create(password, :cost => 11)
+#   checkUser = d_base.exec("SELECT username FROM login WHERE username = '#{username}'")
+
+#   if checkUser.num_tuples.zero? == true
+#     d_base.exec ("INSERT INTO login (username, password) VALUES ('#{username}','#{encrypted_pass}')")
+#     puts "new row added, encrypted_pass is #{encrypted_pass}"
+#     # redirect "/admin?message=User '#{username}' has been added"
+#   else
+#     d_base.close
+#     puts "name already exists"
+#     # redirect '/admin?message=User Already Exists'
+#   end
+
+# end
 
 def update_login(data)
   begin
@@ -50,42 +59,6 @@ def delete_login(data)
     d_base = PG::Connection.new(db_info)
     d_base.exec ("DELETE FROM public.login
       WHERE username='#{data[0]}' AND password='#{data[1]}' ");
-    rescue PG::Error => e
-      puts e.message
-    ensure
-      d_base.close if d_base
-  end
-end
-
-def search_phone(data)
-  begin
-    db_info = {
-      host: ENV['RDS_HOST'],
-      port: ENV['RDS_PORT'],
-      dbname: ENV['RDS_DB_NAME'],
-      user: ENV['RDS_USERNAME'],
-      password: ENV['RDS_PASSWORD']
-      }
-    d_base = PG::Connection.new(db_info)
-    d_base.exec ("SELECT * FROM public.phonebook WHERE phone_number='#{data[6]}'");
-    rescue PG::Error => e
-      puts e.message
-    ensure
-      d_base.close if d_base
-  end
-end
-
-def search_name(data)
-  begin
-    db_info = {
-      host: ENV['RDS_HOST'],
-      port: ENV['RDS_PORT'],
-      dbname: ENV['RDS_DB_NAME'],
-      user: ENV['RDS_USERNAME'],
-      password: ENV['RDS_PASSWORD']
-      }
-    d_base = PG::Connection.new(db_info)
-    d_base.exec ("SELECT * FROM public.phonebook WHERE last_name='#{data[1]}'");
     rescue PG::Error => e
       puts e.message
     ensure
