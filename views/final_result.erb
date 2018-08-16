@@ -15,11 +15,16 @@ Phonebook listings with the updated information:
 	<%= item['first_name'] %> <%= item['last_name'] %>:  <%= item['street_address'] %> <%= item['city'] %>, <%= item['state'] %>, <%= item['zip_code'] %> //// <%= item['phone_number'] %> //// (<%= item['email_address'] %>)
 <% end %>
 </p>
+
+<br>
 <form method="post" action='final_result'>
 <div class="k">Please select "Return" to input another entry:
+</div>
+<center>
 <br>
 	<input type='submit' value="Return">
-</div>
+</center>
 </form>
+
 </body>
 </html>

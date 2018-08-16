@@ -27,7 +27,6 @@ end
 post '/create_user' do
   session[:username] = params[:username]
   session[:password] = params[:password]
-  p "this is username #{session[:username]} and password #{session[:password]}"
   db_info = {
       host: ENV['RDS_HOST'],
       port: ENV['RDS_PORT'],
@@ -42,11 +41,11 @@ post '/create_user' do
   if checkUser.num_tuples.zero? == true
     d_base.exec ("INSERT INTO login (username, password) VALUES ('#{session[:username]}','#{encrypted_pass}')")
     puts "new row added, encrypted_pass is #{encrypted_pass}"
-    redirect '/sign_in?message=Log Into Your Account'
+    redirect '/sign_in'
   else
     d_base.close
     puts "User already exists"
-    redirect '/sign_in?message=User Already Exists'
+    redirect '/sign_in?message=UserName Already Exists'
   end
 end
 
@@ -65,7 +64,7 @@ post '/sign_in' do
     user_pass = session[:password]
     match_login = d_base.exec("SELECT username, password FROM login WHERE username = '#{session[:username]}'")
         if match_login.num_tuples.zero? == true
-          error = erb :sign_in,locals: {message:"Invalid username and password combination"}
+          error = erb :sign_in,locals: {message:"Invalid UserName and Password Combination"}
           return error
         end
     password = match_login[0]['password']
@@ -75,7 +74,7 @@ post '/sign_in' do
       session[:username] = user_name
       erb :input_info
       else
-      erb :sign_in,locals: {message:"Invalid username and password combination"}
+      erb :sign_in,locals: {message:"Invalid UserName and Password Combination"}
       end
 end
 
