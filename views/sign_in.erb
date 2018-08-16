@@ -6,26 +6,28 @@
 
 </style>
 </head>
-<body class="background1">
+<body class="background2">
+<p class="n">
+	<%=message%>
+</p>
 <p class="e">
-	<%=message%><br>
-Please sign in if you have an existing login:
-<h3><form method="post" action="sign_in">
- 	<center>UserName<input type="text"  id="username" name="username" autofocus required>
- 	Password<input type="password"  id="password" name="password" autofocus required>
+Please sign in if you have an existing login for the Phonebook:
+<h2><form method="post" action="sign_in">
+ 	<center>UserName <input type="text"  id="username" name="username" autofocus required>
+ 	Password <input type="password"  id="password" name="password" autofocus required>
 </center>
-</h3>
+</h2>
 <center>
  <br>
 	<input type="submit" value="Login"></center>
 </form>
 </p>
-<p class="d">Please create a new login to sign in to the Phonebook:
-<h3><form method="post" action="create_user">
-	<center>UserName<input type="text"  id="username" name="username" autofocus required>
-	Password<input type="password"  id="password" name="password" autofocus required>
+<p class="d">Please create a new login to sign into the Phonebook:
+<h2><form method="post" action="create_user">
+	<center>UserName <input type="text"  id="username" name="username" autofocus required>
+	Password <input type="password"  id="password" name="password" autofocus required>
 </center>
-</h3>
+</h2>
 <center>
 	<input type="submit" value="Create New Login">
 </center>

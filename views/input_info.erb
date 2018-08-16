@@ -6,10 +6,10 @@
 
 </style>
 </head>
-<body class="background2">
+<body class="background3">
 <p class="g">
 Please input information to be listed in the phonebook or to search for an existing entry in the phonebook:</p>
-
+<center>
 <form method="post" action="input_info">
     <input type="text" name="data[]" placeholder="FirstName" required>
     <input type="text" name="data[]" placeholder="LastName" required><br>
@@ -17,20 +17,21 @@ Please input information to be listed in the phonebook or to search for an exist
     <input type="text" name="data[]" placeholder="City" required><br>
     <input type="text" name="data[]" placeholder="State" required>
     <input type="text" name="data[]" placeholder="Zip" minlength="5" maxlength="5" required><br>
-<br>(Continental US Numbers Only)</br>
+<div class="o"><br>(Continental US Numbers Only)</br></div>
     <input type="text" name="data[]" placeholder="Phone" minlength="10" maxlength="10" required><br>
 <br><input type="text" name="data[]" placeholder="Email" required>
-
+</center>
 <p class="h">Select "Next" to view your new entry in the phonebook.</p>
-<p class="h">If you're searching for an entry, you will be directed to a page to either make updates or delete an existing entry.</p>
-
+<div class="j">If you're searching for an entry, you will be directed to a page to either make updates or delete an existing entry.
+<br>
     <input type="submit" value="Next">
+</div>
 </form>
 
-<h2>Select "Previous Page" to return to the previous page you visited:</h2>
+<center><h1>Select "Previous Page" to return to the previous page you visited:</h1>
 
 <button onclick="goBack()">Previous Page</button>
-
+</center>
 <script>
 function goBack() {
     window.history.back();

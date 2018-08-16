@@ -1,12 +1,25 @@
-<h1>Phonebook listings with the updated information:</h1>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<style>
 
+</style>
+</head>
+<body class="background5">
+<p class="g">
+Phonebook listings with the updated information:
+</p>
 <%db_return.each do |item|%>
 <p class="f">
 	<%= item['first_name'] %> <%= item['last_name'] %>:  <%= item['street_address'] %> <%= item['city'] %>, <%= item['state'] %>, <%= item['zip_code'] %> //// <%= item['phone_number'] %> //// (<%= item['email_address'] %>)
 <% end %>
 </p>
 <form method="post" action='final_result'>
-<h2>Please select "Return" to input another entry:</h3>
+<div class="k">Please select "Return" to input another entry:
+<br>
 	<input type='submit' value="Return">
+</div>
 </form>
-
+</body>
+</html>

@@ -21,9 +21,8 @@ get '/sign_in' do
   session[:username] = params[:username]
   session[:password] = params[:password]
   message = params[:message] || ""
-  erb :sign_in, locals: {message: message}
+  erb :sign_in, locals: {message: message, username: session[:username], password: session[:password]}
 end
-
 
 post '/create_user' do
   session[:username] = params[:username]
@@ -43,19 +42,41 @@ post '/create_user' do
   if checkUser.num_tuples.zero? == true
     d_base.exec ("INSERT INTO login (username, password) VALUES ('#{session[:username]}','#{encrypted_pass}')")
     puts "new row added, encrypted_pass is #{encrypted_pass}"
-    redirect '/input_info'
+    redirect '/sign_in?message=Log Into Your Account'
   else
     d_base.close
     puts "User already exists"
     redirect '/sign_in?message=User Already Exists'
   end
-  
 end
 
 post '/sign_in' do
   session[:username] = params[:username]
   session[:password] = params[:password]
-  redirect '/input_info'
+  db_info = {
+   host: ENV['RDS_HOST'],
+   port: ENV['RDS_PORT'],
+   dbname: ENV['RDS_DB_NAME'],
+   user: ENV['RDS_USERNAME'],
+   password: ENV['RDS_PASSWORD']
+ }
+  d_base = PG::Connection.new(db_info)
+    user_name = session[:username]
+    user_pass = session[:password]
+    match_login = d_base.exec("SELECT username, password FROM login WHERE username = '#{session[:username]}'")
+        if match_login.num_tuples.zero? == true
+          error = erb :sign_in,locals: {message:"Invalid username and password combination"}
+          return error
+        end
+    password = match_login[0]['password']
+    comparePassword = BCrypt::Password.new(password)
+    usertype = match_login[0]['usertype']
+      if match_login[0]['username'] == user_name &&  comparePassword ==    user_pass
+      session[:username] = user_name
+      erb :input_info
+      else
+      erb :sign_in,locals: {message:"Invalid username and password combination"}
+      end
 end
 
 get '/input_info' do
