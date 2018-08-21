@@ -25,6 +25,7 @@ get '/sign_in' do
 end
 
 post '/create_user' do
+  puts "create user"
   session[:username] = params[:username]
   session[:password] = params[:password]
   db_info = {
@@ -37,11 +38,12 @@ post '/create_user' do
   d_base = PG::Connection.new(db_info)
   encrypted_pass = BCrypt::Password.create(session[:password], :cost => 11)
   checkUser = d_base.exec("SELECT username FROM login WHERE username = '#{session[:username]}'")
-
-  if checkUser.num_tuples.zero? == true
+  puts "this is username #{session[:username]} in create user"
+   if checkUser.num_tuples.zero? == true
+    puts "new user going into table #{session[:username]}"
     d_base.exec ("INSERT INTO login (username, password) VALUES ('#{session[:username]}','#{encrypted_pass}')")
     puts "new row added, encrypted_pass is #{encrypted_pass}"
-    redirect '/sign_in'
+    redirect '/input_info'
   else
     d_base.close
     puts "User already exists"
@@ -72,22 +74,23 @@ post '/sign_in' do
     usertype = match_login[0]['usertype']
       if match_login[0]['username'] == user_name &&  comparePassword ==    user_pass
       session[:username] = user_name
-      erb :input_info
+      erb :input_info, locals: {username: session[:username]}
       else
       erb :sign_in,locals: {message:"Invalid UserName and Password Combination"}
       end
 end
 
 get '/input_info' do
-  erb :input_info
+  erb :input_info, locals: {username: session[:username]}
 end
 
 post '/input_info' do
   session[:data] = params[:data]
+  # session[:username] = params[:username]
   db_check = check_if_user_is_in_db(session[:data])
   if db_check.num_tuples.zero? == true 
-    puts "not in db"
-    insert_info(session[:data])
+    # puts "not in db, session name is #{session[:username]}"
+    insert_info(session[:data],session[:username])
     redirect '/final_result'
   else
     puts "it is in the db, update your listing"
@@ -97,7 +100,7 @@ end
 
 get '/updates' do
   db_check = check_if_user_is_in_db(session[:data]).values[0]
-  erb :updates, locals: {db_check: db_check}
+  erb :updates, locals: {db_check: db_check, username: session[:username]}
 end
 
 post '/updates' do
@@ -112,8 +115,8 @@ post '/deletes' do
 end
 
 get '/final_result' do
-  db_return = select_info()
-  erb :final_result, locals: {db_return: db_return}
+  db_return = select_info(session[:username])
+  erb :final_result, locals: {db_return: db_return, username: session[:username]}
 end
 
 post '/final_result' do

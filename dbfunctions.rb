@@ -1,34 +1,8 @@
 require 'pg'
     load './local_env.rb' if File.exist?('./local_env.rb')
 
-# def login(username, password)
-#   begin
-#     db_info = {
-#       host: ENV['RDS_HOST'],
-#       port: ENV['RDS_PORT'],
-#       dbname: ENV['RDS_DB_NAME'],
-#       user: ENV['RDS_USERNAME'],
-#       password: ENV['RDS_PASSWORD']
-#       }
-#     end
-#   # db = connection()
-#   d_base = PG::Connection.new(db_info)
-#   encrypted_pass = BCrypt::Password.create(password, :cost => 11)
-#   checkUser = d_base.exec("SELECT username FROM login WHERE username = '#{username}'")
-
-#   if checkUser.num_tuples.zero? == true
-#     d_base.exec ("INSERT INTO login (username, password) VALUES ('#{username}','#{encrypted_pass}')")
-#     puts "new row added, encrypted_pass is #{encrypted_pass}"
-#     # redirect "/admin?message=User '#{username}' has been added"
-#   else
-#     d_base.close
-#     puts "name already exists"
-#     # redirect '/admin?message=User Already Exists'
-#   end
-
-# end
-
-def update_login(data)
+def insert_info(data,username)
+  puts "this is data #{data} and this is username #{username}"
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -38,45 +12,7 @@ def update_login(data)
       password: ENV['RDS_PASSWORD']
       }
     d_base = PG::Connection.new(db_info)
-    d_base.exec ("UPDATE public.login
-      SET username='#{data[0]}', password='#{data[1]}'");
-    rescue PG::Error => e
-      puts e.message
-    ensure
-      d_base.close if d_base
-  end
-end
-
-def delete_login(data)
-  begin
-    db_info = {
-      host: ENV['RDS_HOST'],
-      port: ENV['RDS_PORT'],
-      dbname: ENV['RDS_DB_NAME'],
-      user: ENV['RDS_USERNAME'],
-      password: ENV['RDS_PASSWORD']
-      }
-    d_base = PG::Connection.new(db_info)
-    d_base.exec ("DELETE FROM public.login
-      WHERE username='#{data[0]}' AND password='#{data[1]}' ");
-    rescue PG::Error => e
-      puts e.message
-    ensure
-      d_base.close if d_base
-  end
-end
-
-def insert_info(data)
-  begin
-    db_info = {
-      host: ENV['RDS_HOST'],
-      port: ENV['RDS_PORT'],
-      dbname: ENV['RDS_DB_NAME'],
-      user: ENV['RDS_USERNAME'],
-      password: ENV['RDS_PASSWORD']
-      }
-    d_base = PG::Connection.new(db_info)
-    d_base.exec ("INSERT INTO public.phonebook (first_name, last_name, street_address, city, state, zip_code, phone_number, email_address) VALUES('#{data[0]}','#{data[1]}','#{data[2]}','#{data[3]}','#{data[4]}','#{data[5]}','#{data[6]}', '#{data[7]}');");
+    d_base.exec ("INSERT INTO public.phonebook (first_name, last_name, street_address, city, state, zip_code, phone_number, email_address, username) VALUES('#{data[0]}','#{data[1]}','#{data[2]}','#{data[3]}','#{data[4]}','#{data[5]}','#{data[6]}', '#{data[7]}', '#{username}');");
     rescue PG::Error => e
       puts e.message
     ensure
@@ -95,7 +31,7 @@ def update_info(data, olddata)
       }
     d_base = PG::Connection.new(db_info)
     d_base.exec ("UPDATE public.phonebook
-      SET first_name='#{data[0]}', last_name='#{data[1]}', street_address='#{data[2]}', city='#{data[3]}', state='#{data[4]}', zip_code='#{data[5]}', phone_number='#{data[6]}', email_address='#{data[7]}' WHERE last_name = '#{data[1]}' AND phone_number = '#{data[6]}' OR  email_address='#{olddata[7]}'");
+      SET first_name='#{data[0]}', last_name='#{data[1]}', street_address='#{data[2]}', city='#{data[3]}', state='#{data[4]}', zip_code='#{data[5]}', phone_number='#{data[6]}', email_address='#{data[7]}', username='#{data[8]}' WHERE last_name = '#{data[1]}' AND phone_number = '#{data[6]}' OR  email_address='#{olddata[7]}' AND username='#{username[8]}");
     rescue PG::Error => e
       puts e.message
     ensure
@@ -103,7 +39,7 @@ def update_info(data, olddata)
   end
 end
 
-def select_info()
+def select_info(username)
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -113,8 +49,8 @@ def select_info()
       password: ENV['RDS_PASSWORD']
       }
     d_base = PG::Connection.new(db_info)
-    d_base.exec ("SELECT first_name, last_name, street_address, city, state, zip_code, phone_number, email_address
-      FROM public.phonebook");
+    d_base.exec ("SELECT first_name, last_name, street_address, city, state, zip_code, phone_number, email_address, username
+      FROM public.phonebook WHERE username='#{username}'");
     rescue PG::Error => e
       puts e.message
     ensure
@@ -151,11 +87,10 @@ def delete_info(data)
       }
     d_base = PG::Connection.new(db_info)
     d_base.exec ("DELETE FROM public.phonebook
-      WHERE first_name='#{data[0]}' AND last_name='#{data[1]}' AND street_address='#{data[2]}' AND city='#{data[3]}' AND state='#{data[4]}' AND zip_code='#{data[5]}' AND phone_number='#{data[6]}' AND email_address='#{data[7]}'");
+      WHERE first_name='#{data[0]}' AND last_name='#{data[1]}' AND street_address='#{data[2]}' AND city='#{data[3]}' AND state='#{data[4]}' AND zip_code='#{data[5]}' AND phone_number='#{data[6]}' AND email_address='#{data[7]}' AND username='#{data[8]}");
     rescue PG::Error => e
       puts e.message
     ensure
       d_base.close if d_base
   end
 end
-
