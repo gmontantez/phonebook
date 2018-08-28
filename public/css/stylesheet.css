@@ -52,19 +52,13 @@ h2 {
 
 h3 {
 	color: #ff0000;/*red*/
+	font-style: italic;
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; 
 	text-align: center;
 	font-weight: bold;
 	*/
 	position: absolute;
     background-color: white;
-}
-
-h4 {
-	color: #00ff00;/*green*/
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; 
-	text-align: center;
-	font-weight: bold;
 }
 
 p.b {
@@ -208,19 +202,37 @@ p.r {
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-li {
+p.s {
+	font-size: 1.50rem;
+	font-style: italic;
+	color: #00cc00;/*green*/
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; 
+	text-align: center;
+	font-weight: bold;
+	*/
+	position: absolute;
+    background-color: white;
+}
+
+li a {
 	display: inline;
 	font-size: 1.5rem;
-	text-align: center;
-	padding-right: 1rem;
+	font-style: italic;
+	font-weight: bold;
+	text-align: right;
+}
+
+li {
+	display: inline;
+	padding-right: 1.5rem;
 	padding-left: 1rem;
+	text-align: left;
 }
 
 ul {
 	font-size: 1.5rem;
 	font-style: italic;
 	font-weight: bold;
-	text-align: left;
 }
 
 a:hover {

@@ -21,16 +21,16 @@ Please input information to be listed in the phonebook or to search for an exist
     <input type="text" name="data[]" placeholder="Phone" minlength="10" maxlength="10" required><br>
 <br><input type="text" name="data[]" placeholder="Email" required>
 </center>
-<p class="h">Select "Next" to view your new entry in the phonebook.</p>
-<div class="j">If you're searching for an entry, you will be directed to a page to either make updates or delete an existing entry.</div>
-<br>
+<p class="j">Select "Next Page" to either view your phonebook with this new listing or to modify this existing entry:</p>
+
 <center>
-    <input type="submit" value="Next">
+    <input type="submit" value="Next Page">
 </center>
 </form>
+<br>
+<p class="s">Select "Previous Page" to return to the previous page you visited or "Final Page" just to view your current phonebook listings:</p>
 
-<center><h1>Select "Previous Page" to return to the previous page you visited:</h1>
-
+<center>
 <button onclick="goBack()">Previous Page</button>
 </center>
 <script>
@@ -38,5 +38,11 @@ function goBack() {
     window.history.back();
 }
 </script>
+
+<br>
+<form method="post" action="final_page">
+<center><input type="submit" value="Final Page"></center>
+</form>
+
 </body>
 </html>

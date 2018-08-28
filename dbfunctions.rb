@@ -2,7 +2,6 @@ require 'pg'
     load './local_env.rb' if File.exist?('./local_env.rb')
 
 def insert_info(data,username)
-  puts "this is data #{data} and this is username #{username}"
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -20,7 +19,7 @@ def insert_info(data,username)
   end
 end
 
-def update_info(data, olddata)
+def update_info(data, olddata, username)
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -31,7 +30,7 @@ def update_info(data, olddata)
       }
     d_base = PG::Connection.new(db_info)
     d_base.exec ("UPDATE public.phonebook
-      SET first_name='#{data[0]}', last_name='#{data[1]}', street_address='#{data[2]}', city='#{data[3]}', state='#{data[4]}', zip_code='#{data[5]}', phone_number='#{data[6]}', email_address='#{data[7]}', username='#{data[8]}' WHERE last_name = '#{data[1]}' AND phone_number = '#{data[6]}' OR  email_address='#{olddata[7]}' AND username='#{username[8]}");
+      SET first_name='#{data[0]}', last_name='#{data[1]}', street_address='#{data[2]}', city='#{data[3]}', state='#{data[4]}', zip_code='#{data[5]}', phone_number='#{data[6]}', email_address='#{data[7]}', username='#{username}' WHERE last_name = '#{data[1]}' AND phone_number = '#{data[6]}' OR  email_address='#{olddata[7]}' AND username='#{username}'");
     rescue PG::Error => e
       puts e.message
     ensure
@@ -58,7 +57,7 @@ def select_info(username)
   end
 end
 
-def check_if_user_is_in_db(data)
+def check_if_user_is_in_db(data,username)
   begin
     db_info = {
     host: ENV['RDS_HOST'],
@@ -68,7 +67,7 @@ def check_if_user_is_in_db(data)
     password: ENV['RDS_PASSWORD']
     }
     d_base = PG::Connection.new(db_info)
-    d_base.exec ("SELECT * FROM public.phonebook WHERE last_name = '#{data[1]}' AND phone_number = '#{data[6]}' OR email_address = '#{data[7]}';")
+    d_base.exec ("SELECT * FROM public.phonebook WHERE username='#{username}' AND last_name = '#{data[1]}' AND phone_number = '#{data[6]}' OR email_address = '#{data[7]}';")
   rescue PG::Error => e
     puts e.message
     ensure
@@ -76,7 +75,7 @@ def check_if_user_is_in_db(data)
   end
 end
 
-def delete_info(data)
+def delete_info(data, username)
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -87,7 +86,7 @@ def delete_info(data)
       }
     d_base = PG::Connection.new(db_info)
     d_base.exec ("DELETE FROM public.phonebook
-      WHERE first_name='#{data[0]}' AND last_name='#{data[1]}' AND street_address='#{data[2]}' AND city='#{data[3]}' AND state='#{data[4]}' AND zip_code='#{data[5]}' AND phone_number='#{data[6]}' AND email_address='#{data[7]}' AND username='#{data[8]}");
+      WHERE first_name='#{data[0]}' AND last_name='#{data[1]}' AND street_address='#{data[2]}' AND city='#{data[3]}' AND state='#{data[4]}' AND zip_code='#{data[5]}' AND phone_number='#{data[6]}' AND email_address='#{data[7]}' AND username='#{username}'");
     rescue PG::Error => e
       puts e.message
     ensure

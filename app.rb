@@ -25,7 +25,6 @@ get '/sign_in' do
 end
 
 post '/create_user' do
-  puts "create user"
   session[:username] = params[:username]
   session[:password] = params[:password]
   db_info = {
@@ -38,15 +37,11 @@ post '/create_user' do
   d_base = PG::Connection.new(db_info)
   encrypted_pass = BCrypt::Password.create(session[:password], :cost => 11)
   checkUser = d_base.exec("SELECT username FROM login WHERE username = '#{session[:username]}'")
-  puts "this is username #{session[:username]} in create user"
    if checkUser.num_tuples.zero? == true
-    puts "new user going into table #{session[:username]}"
     d_base.exec ("INSERT INTO login (username, password) VALUES ('#{session[:username]}','#{encrypted_pass}')")
-    puts "new row added, encrypted_pass is #{encrypted_pass}"
     redirect '/input_info'
   else
     d_base.close
-    puts "User already exists"
     redirect '/sign_in?message=UserName Already Exists'
   end
 end
@@ -60,7 +55,7 @@ post '/sign_in' do
    dbname: ENV['RDS_DB_NAME'],
    user: ENV['RDS_USERNAME'],
    password: ENV['RDS_PASSWORD']
- }
+  }
   d_base = PG::Connection.new(db_info)
     user_name = session[:username]
     user_pass = session[:password]
@@ -86,31 +81,34 @@ end
 
 post '/input_info' do
   session[:data] = params[:data]
-  # session[:username] = params[:username]
-  db_check = check_if_user_is_in_db(session[:data])
+  db_check = check_if_user_is_in_db(session[:data],session[:username])
   if db_check.num_tuples.zero? == true 
-    # puts "not in db, session name is #{session[:username]}"
     insert_info(session[:data],session[:username])
     redirect '/final_result'
   else
-    puts "it is in the db, update your listing"
     redirect '/updates'
   end
 end
 
+post '/final_page' do
+  redirect '/final_result'
+end
+
 get '/updates' do
-  db_check = check_if_user_is_in_db(session[:data]).values[0]
+  db_check = check_if_user_is_in_db(session[:data],session[:username]).values[0]
   erb :updates, locals: {db_check: db_check, username: session[:username]}
 end
 
 post '/updates' do
   session[:newdata] = params[:data]
-  update_info(session[:newdata], session[:data]) 
+
+
+  update_info(session[:newdata], session[:data], session[:username]) 
   redirect '/final_result'
 end
 
 post '/deletes' do
-  delete_info(check_if_user_is_in_db(session[:data]).values[0])
+  delete_info(check_if_user_is_in_db(session[:data], session[:username]).values[0], session[:username])
   redirect '/final_result'
 end
 

@@ -14,7 +14,7 @@
 <% end %>
 </p>
 
-<div class="j">Please make the changes to your phonebook listing:</div>
+<div class="j">Please make the changes to this phonebook listing:</div>
 <center>
 <form method="post" action="updates">
     <input type="text" value="<%=db_check[0]%>" name="data[]" placeholder="FirstName" autofocus required>
@@ -32,9 +32,10 @@
 	<input type="text" value="<%=db_check[7]%>" name="data[]" placeholder="Email" required>
 </center>
 <br>
-<div class="k">Please select "Update" or "Delete" to modify the existing entry in the phonebook:</div>
+<div class="k">Please select "Update" or "Delete" to save the changes:</div>
 <center>
 <br>
+<form method="post" action="updates">
 	<input type="submit" value="Update">
 </form>
 </center>
@@ -44,7 +45,7 @@
 	<input type="submit" value="Delete">
 </form>
 </center>
-<h3>Select "Previous Page" to return to the previous page you visited:</h3>
+<h3>Select "Previous Page" to return to the previous page you visited (the changes will not be saved):</h3>
 
 <center><button onclick="goBack()">Previous Page</button><center>
 
